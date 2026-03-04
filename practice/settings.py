@@ -158,4 +158,4 @@ MIDDLEWARE = [
 ]
 
 # CORS_ALLOW_ALL_ORIGINS = True
-AUTH_USER_MODEL = 'backend.Account'
+AUTH_USER_MODEL = 'backend.Register'

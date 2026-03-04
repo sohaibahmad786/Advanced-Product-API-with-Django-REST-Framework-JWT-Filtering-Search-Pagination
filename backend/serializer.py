@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from .models import Student
-from .models import Account
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import check_password
+from .models import Register
+from .models import Note
 
 class Student_serilizer(serializers.ModelSerializer):
     class Meta:
@@ -32,59 +33,58 @@ class Student_serilizer(serializers.ModelSerializer):
         return value
 
 
-class Account_serilizer(serializers.ModelSerializer):
+# class Account_serilizer(serializers.ModelSerializer):
+#     class Meta:
+#         model=Account
+#         fields=['full_name','username','email','password','age']
+#         extra_kwargs={
+#          'username':{
+#              'required':True,'allow_blank':False,
+#              'error_messages':{
+#                  'required':"please Enter username",
+#                  'allow_blank':"please Enter Password"
+#              }
+#          },
+#          'password':{
+#              'required':True, 'allow_blank':False,
+#              'error_messages':{
+#                  'required':"please Enter Password",
+#                  'allow_blank':"please Enter Password",
+#              }
+#          }
+#         }
+
+#     def validate_password(self,value):
+#         if len(value)<8:
+#             raise serializers.ValidationError("Please Enter Strong Password minimium 8 chars")
+#         return value
+    
+#     def validate_age(self,value):
+#         if value < 18:
+#             raise serializers.ValidationError("Sorry your age is not now to make account")
+#         return value
+    
+#     def create(self,validated_data):
+#         validated_data['password'] = make_password(validated_data['password'])
+#         return super().create(validated_data)
+#     def update(self,instance,validated_data):
+#         validated_data['password']=make_password(validated_data['password'])
+#         return super().update(instance,validated_data)
+    
+
+
+class Register_serilizer(serializers.ModelSerializer):
     class Meta:
-        model=Account
-        fields='__all__'
-        extra_kwargs={
-         'username':{
-             'required':True,'allow_blank':False,
-             'error_messages':{
-                 'required':"please Enter username",
-                 'allow_blank':"please Enter Password"
-             }
-         },
-         'password':{
-             'required':True, 'allow_blank':False,
-             'error_messages':{
-                 'required':"please Enter Password",
-                 'allow_blank':"please Enter Password",
-             }
-         }
-        }
+        model=Register
+        fields=['username','email','password']
 
-    def validate_password(self,value):
-        if len(value)<8:
-            raise serializers.ValidationError("Please Enter Strong Password minimium 8 chars")
-        return value
-    
-    def validate_age(self,value):
-        if value < 18:
-            raise serializers.ValidationError("Sorry your age is not now to make account")
-        return value
-    
-    def create(self,validated_data):
-        validated_data['password'] = make_password(validated_data['password'])
-        return super().create(validated_data)
-    def update(self,instance,validated_data):
+    def create(self, validated_data):
         validated_data['password']=make_password(validated_data['password'])
-        return super().update(instance,validated_data)
+        return super().create(validated_data)
     
-# class LoginSerializer(serializers.Serializer):
-#     username = serializers.CharField()
-#     password = serializers.CharField()
-
-#     def validate(self, data):
-#         username = data.get("username")
-#         password = data.get("password")
-
-#         try:
-#             account = Account.objects.get(username=username)
-#         except Account.DoesNotExist:
-#             raise serializers.ValidationError("Invalid username or password")
-
-#         if not check_password(password, account.password):
-#             raise serializers.ValidationError("Invalid username or password")
-
-#         data['account'] = account
-#         return data
+class Note_serilizer(serializers.ModelSerializer):
+    class Meta:
+        model=Note
+        fields='__all__'
+        read_only_field=['user']
+        

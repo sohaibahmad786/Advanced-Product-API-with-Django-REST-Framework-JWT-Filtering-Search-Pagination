@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
+
 class Student(models.Model):
     name=models.CharField()
     email=models.EmailField()
@@ -12,11 +14,16 @@ class Student(models.Model):
         return self.name
 
 
-class Account(AbstractUser):
-    full_name=models.CharField()
-    age=models.IntegerField()
-
-    def __str__(self):
-        return self.username
+# _________________________ Register Note ________________________
+class Register(AbstractUser):
+    class Meta:
+        verbose_name = "Register"          
+        verbose_name_plural = "Register"
+    
+class Note(models.Model):
+    user=models.ForeignKey(Register, on_delete=models.CASCADE)
+    title=models.CharField()
+    content=models.TextField()
+    created_at=models.DateTimeField(auto_now_add=True)
 
 # Create your models here.
