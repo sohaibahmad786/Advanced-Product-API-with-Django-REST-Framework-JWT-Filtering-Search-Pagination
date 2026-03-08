@@ -5,7 +5,7 @@ from .models import Register
 from .models import Category
 from .models import Products
 
-
+# ____________________ Registration serilizer___________________
 class Register_serilizer(serializers.ModelSerializer):
     class Meta:
         model=Register
@@ -15,7 +15,7 @@ class Register_serilizer(serializers.ModelSerializer):
         validated_data['password']=make_password(validated_data['password'])
         return super().create(validated_data)
 
-# ____________________ product APi___________________
+# ____________________ product APi serilzier___________________
 class category_serilizer(serializers.ModelSerializer):
     class Meta:
         model=Category
